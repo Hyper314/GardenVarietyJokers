@@ -3,7 +3,7 @@
     "name": "Garden Variety Jokers",
 	"display_name": "Garden Variety",
     "author": ["hyper314"],
-    "description": "Adds [60?] new Jokers!",
+    "description": "Adds 60 new Jokers!",
     "prefix": "garden",
     "main_file": "main.lua",
     "badge_colour": "9a75ff",
