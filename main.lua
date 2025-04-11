@@ -2485,7 +2485,7 @@ SMODS.Joker {
 		}
 	},
 	yes_pool_flag = 'redplant_extinct',
-	config = { extra = { money = 12 } },
+	config = { extra = { money = 25 } },
 	rarity = 1,
 	blueprint_compat = false,
 	eternal_compat = true,
