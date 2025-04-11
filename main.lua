@@ -1391,17 +1391,17 @@ SMODS.Joker {
 		text = {
 			"When {C:attention}Blind{} is selected,",
             "destroy Joker to the right",
-            "and earn {C:attention}triple{} its sell value"
+            "and earn {C:attention}six times{} its sell value"
 		}
 	},
 	config = { extra = {  } },
-	rarity = 3,
+	rarity = 2,
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = 'gardenvariety',
 	pos = { x = 2, y = 2 },
-	cost = 8,
+	cost = 6,
 	
 	loc_vars = function(self, info_queue, card)
 		return {
@@ -1429,10 +1429,10 @@ SMODS.Joker {
                     play_sound('slice1', 0.96+math.random()*0.08)
                 return true end }))
 				
-                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + killed.sell_cost * 3
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + killed.sell_cost * 6
 				G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
 				return {
-					dollars = killed.sell_cost * 3,
+					dollars = killed.sell_cost * 6,
 					card = context.other_card
 				}
             end
