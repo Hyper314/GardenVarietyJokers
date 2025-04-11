@@ -2208,18 +2208,18 @@ SMODS.Joker {
 		text = {
 			"If scoring hand contains at",
 			"least {C:attention}3{} {C:spades}Spades{}, create a",
-			"random {C:planet}Planet{} card",
+			"random {C:dark_edition}Negative{} {C:planet}Planet{} card",
 			"{C:inactive}(Must have room)"
 		}
 	},
 	config = { extra = { } },
-	rarity = 2,
+	rarity = 3,
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = 'gardenvariety',
 	pos = { x = 1, y = 4 },
-	cost = 6,
+	cost = 8,
 	
 	calculate = function(self, card, context)
 		if context.before then
@@ -2239,6 +2239,7 @@ SMODS.Joker {
 						func = (function()
 								local card = create_card('Planet',G.consumeables, nil, nil, nil, nil, nil, 'planet')
 								card:add_to_deck()
+								card:set_edition('e_negative', true)
 								G.consumeables:emplace(card)
 								G.GAME.consumeable_buffer = 0
 							return true
