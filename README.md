@@ -1,7 +1,7 @@
 This mod adds 60 new Jokers:
 - 9 Common Jokers
-- 29 Uncommon Jokers
-- 19 Rare Jokers
+- 28 Uncommon Jokers
+- 20 Rare Jokers
 - 3 Legendary Jokers
 
 You can see a list of all Jokers here:
