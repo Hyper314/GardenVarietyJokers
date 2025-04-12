@@ -736,15 +736,15 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-        if context.joker_main and card.ability.extra.x_mult > 1 then
+        if context.joker_main and card.ability.extra.x_mult > 1 and not self.debuff then
 			return {
 				Xmult_mod = card.ability.extra.x_mult,
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
 			}
-		elseif context.before and not context.blueprint and next(context.poker_hands['Full House']) then
+		elseif context.before and not context.blueprint and next(context.poker_hands['Full House']) and not self.debuff then
 			card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_gain
 			return {
-				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
+				message = localize('k_upgrade_ex')
 			}
 		end
     end
@@ -2592,7 +2592,7 @@ SMODS.Joker {
 				}))
 				G.GAME.pool_flags.mandarin_extinct = true
 				return {
-					message = localize('k_extinct_ex')
+					message = localize('k_eaten_ex')
 				}
 			else
 				return {
