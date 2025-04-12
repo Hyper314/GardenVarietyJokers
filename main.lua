@@ -485,7 +485,7 @@ SMODS.Joker {
         if context.setting_blind and not context.blueprint then
 			card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.x_mult_gain
 			return {
-				message = localize('k_upgrade_ex'),
+				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
 				colour = G.C.RED,
 				card = card
 			}
@@ -495,11 +495,11 @@ SMODS.Joker {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
 			}
 		elseif context.using_consumeable and not context.blueprint and context.consumeable.ability.set == 'Planet' then
+			card.ability.extra.x_mult = 1
 			return {
 				message = localize('k_reset'),
 				colour = G.C.attention
 			}
-			card.ability.extra.x_mult = 1
 		end
     end
 }
