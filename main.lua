@@ -156,7 +156,7 @@ SMODS.Joker {
 			"destroyed and give {C:money}$#1#{}"
 		}
 	},
-	config = { extra = { money = 8, odds = 2 } },
+	config = { extra = { money = 8, odds = 2, other_card = 1 } },
 	rarity = 2,
 	blueprint_compat = false,
 	eternal_compat = true,
@@ -173,30 +173,24 @@ SMODS.Joker {
 		}
 	end,
 	
-	
 	calculate = function(self, card, context)
 		if context.before then
-            card.ability.extra.destroy_cards = {}
-		elseif context.individual and context.cardarea == G.play then
-			if (context.other_card:get_id() == 12 or context.other_card:get_id() == 13) and not context.other_card.debuff  then
+			card.ability.extra.other_card = 1
+		elseif context.destroying_card then
+			if (context.scoring_hand[card.ability.extra.other_card]:get_id() == 12 
+			or context.scoring_hand[card.ability.extra.other_card]:get_id() == 13) 
+			and not context.scoring_hand[card.ability.extra.other_card].debuff  then
 				if pseudorandom('coup') < G.GAME.probabilities.normal / card.ability.extra.odds then
-					if not contains(card.ability.extra.destroy_cards, context.other_card) then
-						card.ability.extra.destroy_cards[#card.ability.extra.destroy_cards + 1] = context.other_card
-						
 						G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
 						G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
 						return {
 							dollars = card.ability.extra.money,
-							card = context.other_card
+							card = card,
 						}
-					end
 				end
 			end
-		elseif context.destroying_card then
-            return contains(card.ability.extra.destroy_cards, context.destroying_card)
-        elseif context.after then
-            card.ability.extra.destroy_cards = nil
-        end
+			card.ability.extra.other_card = card.ability.extra.other_card + 1
+		end
 	end
 }
 
@@ -233,9 +227,9 @@ SMODS.Joker {
 			if context.other_card:get_id() == 11  and not context.other_card.debuff then
 				context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus + card.ability.extra.perma_bonus
 				return {
-					message = localize('k_upgrade_ex'),
+					extra = { message = localize('k_upgrade_ex'), colour = G.C.CHIPS },
 					colour = G.C.BLUE,
-					card = context.other_card
+					card = card,
 				}
 			end
 		end
@@ -492,11 +486,14 @@ SMODS.Joker {
 				colour = G.C.RED,
 				card = card
 			}
-		elseif context.joker_main then
-			return {
-				Xmult_mod = card.ability.extra.x_mult,
-				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
-			}
+		elseif context.joker_main 
+		and not self.debuff then
+			if not card.ability.extra.x_mult ~= 1 then
+				return {
+					Xmult_mod = card.ability.extra.x_mult,
+					message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
+				}
+			end
 		elseif context.using_consumeable and not context.blueprint and context.consumeable.ability.set == 'Planet' then
 			if pseudorandom('comet') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				card.ability.extra.x_mult = 1
@@ -506,7 +503,7 @@ SMODS.Joker {
 				}
 			else
 				return {
-					message = 'Missed!',
+					message = 'Safe!',
 					colour = G.C.attention
 				}
 			end
@@ -537,7 +534,9 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-        if context.setting_blind then
+        if context.setting_blind 
+		and not self.debuff 
+		and not context.blueprint then
 			for _, cons in pairs(G.consumeables.cards) do
 				--[[if not cons:get_edition() then
 					cons:set_edition('e_polychrome', true)
@@ -598,14 +597,21 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-        if context.before and next(context.poker_hands['Full House']) then
+        if context.before 
+		and next(context.poker_hands['Full House'])
+		and not context.blueprint
+		and not self.debuff then
 			card.ability.extra.money = card.ability.extra.money + card.ability.extra.money_gain
 			return {
 				message = localize('k_upgrade_ex'),
 				colour = G.C.MONEY,
 				card = card
 			}
-		elseif context.end_of_round and not context.repetition and not context.individual and G.GAME.blind.boss then
+		end
+		if context.end_of_round 
+		and not context.repetition 
+		and not context.individual 
+		and G.GAME.blind.boss then
 			card.ability.extra.reset_time = true
 		end
     end
@@ -641,8 +647,11 @@ SMODS.Joker {
 	calculate = function(self, card, context)
         if context.before then
             card.ability.extra.destroy_cards = {}
-		elseif context.individual and context.cardarea == G.play then
-			if context.other_card.config.center.key == "m_stone" and not context.other_card.debuff then
+		elseif context.individual 
+		and context.cardarea == G.play 
+		and not context.blueprint then
+			if context.other_card.config.center.key == "m_stone" 
+			and not context.other_card.debuff then
 				if not contains(card.ability.extra.destroy_cards, context.other_card) then
 				
 					card.ability.extra.destroy_cards[#card.ability.extra.destroy_cards + 1] = context.other_card
@@ -772,7 +781,10 @@ SMODS.Joker {
 					card = context.other_card
 				}
 			end
-		elseif context.individual and context.cardarea == G.play and not context.blueprint then
+		elseif context.individual 
+		and context.cardarea == G.play 
+		and not context.blueprint 
+		and not self.debuff then
 			if context.other_card:get_id() == 14 then
 				card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
 				return {
@@ -946,13 +958,20 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 and not context.full_hand[1].edition then
+		if context.first_hand_drawn then
+            juice_card_until(card, function() return G.GAME.current_round.hands_played == 0 end, true)
+		end
+
+		if context.before 
+		and G.GAME.current_round.hands_played == 0 
+		and #context.full_hand == 1 
+		and not context.full_hand[1].edition then
 			card.ability.extra.uses = card.ability.extra.uses - 1
 			
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            local edition = poll_edition('aura', nil, true, true)
-            local aura_card = context.full_hand[1]
-            aura_card:set_edition(edition, true)
+				local edition = poll_edition('aura', nil, true, true)
+				local aura_card = context.full_hand[1]
+				aura_card:set_edition(edition, true)
 			return true end }))
 			
 			if card.ability.extra.uses <= 0 then
