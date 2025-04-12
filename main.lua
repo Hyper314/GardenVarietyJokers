@@ -458,13 +458,12 @@ SMODS.Joker {
 		name = 'Pulsar',
 		text = {
 			"This Joker gains {X:mult,C:white}X#1#{} Mult when",
-			"{C:attention}Blind{} is selected, but has a",
-			"{C:green}#3# in #4#{} chance to reset",
-			"when a {C:planet}Planet{} card is used",
+			"{C:attention}Blind{} is selected",
+			"Resets when a {C:planet}Planet{} card is used",
 			"{C:inactive}(Currently{} {X:mult,C:white}X#2#{} {C:inactive}Mult){}"
 		}
 	},
-	config = { extra = { x_mult_gain = 0.5, x_mult = 1, odds = 5} },
+	config = { extra = { x_mult_gain = 0.4, x_mult = 1} },
 	rarity = 2,
 	blueprint_compat = true,
 	eternal_compat = true,
@@ -477,9 +476,7 @@ SMODS.Joker {
 		return {
 			vars = {
 				card.ability.extra.x_mult_gain,
-				card.ability.extra.x_mult,
-				G.GAME.probabilities.normal,
-				card.ability.extra.odds
+				card.ability.extra.x_mult
 			}
 		}
 	end,
@@ -498,18 +495,10 @@ SMODS.Joker {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
 			}
 		elseif context.using_consumeable and not context.blueprint and context.consumeable.ability.set == 'Planet' then
-			if pseudorandom('comet') < G.GAME.probabilities.normal / card.ability.extra.odds then
-				card.ability.extra.x_mult = 1
-				return {
-					message = 'Collision!',
-					colour = G.C.RED
-				}
-			else
-				return {
-					message = 'Missed!',
-					colour = G.C.attention
-				}
-			end
+			return {
+				message = localize('k_reset'),
+				colour = G.C.attention
+			}
 		end
     end
 }
@@ -1230,7 +1219,7 @@ SMODS.Joker {
 			juice_card_until(card, eval, true)
 		end
 		
-		if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
+		if context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 and context.full_hand[1]:get_id() == 14 then
 			
 			local to_destroy = {}
 			local ace_hand = {}
@@ -1389,24 +1378,26 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Blood Money',
 		text = {
+			"Earn {C:money}$#1#{} at end of round",
 			"When {C:attention}Blind{} is selected,",
             "destroy Joker to the right",
-            "and earn {C:attention}six times{} its sell value"
+            "and add {C:attention}half{} its {C:attention}sell value",
+			"to payout"
 		}
 	},
-	config = { extra = {  } },
+	config = { extra = { money = 0 } },
 	rarity = 2,
 	blueprint_compat = false,
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = 'gardenvariety',
 	pos = { x = 2, y = 2 },
-	cost = 6,
+	cost = 7,
 	
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				
+				card.ability.extra.money
 			}
 		}
 	end,
@@ -1429,13 +1420,17 @@ SMODS.Joker {
                     play_sound('slice1', 0.96+math.random()*0.08)
                 return true end }))
 				
-                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + killed.sell_cost * 6
-				G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
-				return {
-					dollars = killed.sell_cost * 6,
-					card = context.other_card
-				}
+				local add_value = math.floor(killed.sell_cost / 2)
+				if add_value < 1 then add_value = 1 end
+				card.ability.extra.money = card.ability.extra.money + add_value
             end
+		end
+	end,
+	
+	calc_dollar_bonus = function(self, card)
+		local bonus = card.ability.extra.money
+		if bonus > 0 then
+			return bonus
 		end
 	end
 }
@@ -2878,7 +2873,7 @@ SMODS.Joker {
 			"or {X:mult,C:white}X#4#{} Mult when scored"
 		}
 	},
-	config = { extra = { money = 4, chips = 100, mult = 21, x_mult = 2 } },
+	config = { extra = { money = 4, chips = 200, mult = 28, x_mult = 3 } },
 	rarity = 3,
 	blueprint_compat = true,
 	eternal_compat = true,
