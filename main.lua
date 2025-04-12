@@ -661,7 +661,7 @@ SMODS.Joker {
 			"{C:inactive}(Currently{} {C:chips}+#1#{} {C:inactive}Chips){}"
 		}
 	},
-	config = { extra = { chips = 0, chip_gain = 15} },
+	config = { extra = { chips = 0, chip_gain = 10} },
 	rarity = 1,
 	blueprint_compat = true,
 	eternal_compat = true,
@@ -1651,7 +1651,7 @@ SMODS.Joker {
             "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
 		}
 	},
-	config = { extra = { mult = 0, mult_gain = 2 } },
+	config = { extra = { mult = 0, mult_gain = 1 } },
 	rarity = 3,
 	blueprint_compat = true,
 	eternal_compat = true,
