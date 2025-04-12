@@ -616,7 +616,7 @@ SMODS.Joker {
 			"destroyed and give {C:money}$#1#{}"
 		}
 	},
-	config = { extra = { money = 5 } },
+	config = { extra = { money = 5, other_card = 1 } },
 	rarity = 2,
 	blueprint_compat = false,
 	eternal_compat = true,
@@ -635,31 +635,20 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-        if context.before then
-            card.ability.extra.destroy_cards = {}
-		elseif context.individual 
-		and context.cardarea == G.play 
-		and not context.blueprint then
-			if context.other_card.config.center.key == "m_stone" 
-			and not context.other_card.debuff then
-				if not contains(card.ability.extra.destroy_cards, context.other_card) then
-				
-					card.ability.extra.destroy_cards[#card.ability.extra.destroy_cards + 1] = context.other_card
-					G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
-					G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
-					return {
-						dollars = card.ability.extra.money,
-						card = context.other_card
-					}
-					
-				end
-			end
+		if context.before then
+			card.ability.extra.other_card = 1
 		elseif context.destroying_card then
-            return contains(card.ability.extra.destroy_cards, context.destroying_card)
-        elseif context.after then
-            card.ability.extra.destroy_cards = nil
-        end
-    end
+			if context.scoring_hand[card.ability.extra.other_card].config.center.key == "m_stone" and not context.scoring_hand[card.ability.extra.other_card].debuff then
+				G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
+				G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+				return {
+					dollars = card.ability.extra.money,
+					card = card,
+				}
+			end
+			card.ability.extra.other_card = card.ability.extra.other_card + 1
+		end
+	end
 }
 
 SMODS.Joker {
