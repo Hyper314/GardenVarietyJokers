@@ -499,6 +499,7 @@ SMODS.Joker {
 				message = localize('k_reset'),
 				colour = G.C.attention
 			}
+			card.ability.extra.x_mult = 1
 		end
     end
 }
