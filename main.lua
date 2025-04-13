@@ -103,16 +103,6 @@ SMODS.Atlas {
 
 SMODS.Joker {
 	key = 'mintcondition',
-	loc_txt = {
-		name = 'Mint Condition',
-		text = {
-			"Cards with no {C:attention}Seals{},",
-			"{C:enhanced}Enhancements{}, or {C:dark_edition}Editions{}",
-			"give {X:mult,C:white}X#1#{} Mult when scored",
-			"Increases by {X:mult,C:white}X0.05{} when",
-			"{C:attention}Boss Blind{} is defeated"
-		}
-	},
 	config = { extra = { x_mult = 1.05 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.x_mult } }
@@ -148,14 +138,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'revolution',
-	loc_txt = {
-		name = 'Revolution',
-		text = {
-			"Scored {C:attention}Kings{} and {C:attention}Queens{}",
-			"have a {C:green}#2# in #3#{} chance to be",
-			"destroyed and give {C:money}$#1#{}"
-		}
-	},
 	config = { extra = { money = 8, odds = 2, other_card = 1 } },
 	rarity = 2,
 	blueprint_compat = false,
@@ -196,13 +178,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'excalibur',
-	loc_txt = {
-		name = 'Excalibur',
-		text = {
-			"Scored {C:attention}Jacks{} permanently",
-			"gain {C:chips}+#1#{} Chips"
-		}
-	},
 	config = { extra = { perma_bonus = 20 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -238,15 +213,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'mismatchedsocks',
-	loc_txt = {
-		name = 'Mismatched Socks',
-		text = {
-			"This Joker gains {X:mult,C:white}X#1#{} Mult per",
-			"{C:attention}consecutive{} hand played that does",
-			"not contain a {C:attention}Pair{}",
-			"{C:inactive}(Currently {X:mult,C:white}X#2#{} {C:inactive}Mult{}"
-		}
-	},
 	config = { extra = { x_mult_gain = 0.2, x_mult = 1 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.x_mult_gain, card.ability.extra.x_mult } }
@@ -285,14 +251,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'ghostpepper',
-	loc_txt = {
-		name = 'Ghost Pepper',
-		text = {
-			"{C:mult}+#1#{} Mult and {C:attention}-#2#{} hand size",
-			"after each round played",
-			"{C:inactive}(Currently {C:mult}+#3#{} {C:inactive}Mult, {C:attention}-#4#{} {C:inactive}hand size){}"
-		}
-	},
 	config = { extra = { extra_mult = 15, extra_hand_size = 1, mult = 0, hand_size = 0 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -324,7 +282,7 @@ SMODS.Joker {
 			card.ability.extra.hand_size = card.ability.extra.hand_size + card.ability.extra.extra_hand_size
 			G.hand:change_size(-1)
 			return {
-				message = 'Heating up!',
+				message = localize("k_heatingup"),
 				colour = G.C.RED,
 				card = card
 			}
@@ -338,12 +296,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'vinylstickers',
-	loc_txt = {
-		name = 'Vinyl Stickers',
-		text = {
-			"Retrigger all {C:attention}Glass{} cards"
-		}
-	},
 	effect = 'Glass Card',
 	config = { extra = { r = 1 } },
 	rarity = 2,
@@ -381,15 +333,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'oscillation',
-	loc_txt = {
-		name = 'Oscillation',
-		text = {
-			"This Joker gains {C:chips}+#2#{} Chips per",
-			"scored {C:attention}even{} rank, but loses",
-			"{C:chips}-#3#{} Chips per scored {C:attention}odd{} rank",
-			"{C:inactive}(Currently{} {C:chips}+#1#{} {C:inactive}Chips){}"
-		}
-	},
 	config = { extra = { chips = 0, chip_gain = 4, chip_loss = 3} },
 	rarity = 1,
 	blueprint_compat = true,
@@ -448,15 +391,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'pulsar',
-	loc_txt = {
-		name = 'Pulsar',
-		text = {
-			"This Joker gains {X:mult,C:white}X#1#{} Mult when",
-			"{C:attention}Blind{} is selected",
-			"Resets when a {C:planet}Planet{} card is used",
-			"{C:inactive}(Currently{} {X:mult,C:white}X#2#{} {C:inactive}Mult){}"
-		}
-	},
 	config = { extra = { x_mult_gain = 0.4, x_mult = 1} },
 	rarity = 2,
 	blueprint_compat = true,
@@ -502,15 +436,7 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
-	key = 'DIY Joker',
-	loc_txt = {
-		name = 'DIY Joker',
-		text = {
-			"When {C:attention}Blind{} is selected,",
-			"all held consumables",
-			"become {C:dark_edition}Polychrome{}"
-		}
-	},
+	key = 'diyjoker',
 	rarity = 3,
 	blueprint_compat = false,
 	eternal_compat = true,
@@ -536,7 +462,7 @@ SMODS.Joker {
 			end
 			if #G.consumeables.cards > 0 then
 				return {
-					message = 'Poof!',
+					message = localize('k_poof'),
 					colour = G.C.dark_edition,
 					card = card
 				}
@@ -547,15 +473,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'housemoney',
-	loc_txt = {
-		name = 'House Money',
-		text = {
-			"Earn {C:money}$#1#{} at end of round",
-			"Payout increases by {C:money}$#2#{}",
-			"if hand contains a {C:attention}Full House{}",
-			"Payout resets each ante"
-		}
-	},
 	config = { extra = { money = 0, money_gain = 3, reset_time = false } },
 	rarity = 1,
 	blueprint_compat = false,
@@ -609,13 +526,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'goldrush',
-	loc_txt = {
-		name = 'Gold Rush',
-		text = {
-			"Scored {C:attention}Stone{} cards are",
-			"destroyed and give {C:money}$#1#{}"
-		}
-	},
 	config = { extra = { money = 5, other_card = 1 } },
 	rarity = 2,
 	blueprint_compat = false,
@@ -653,14 +563,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'collector',
-	loc_txt = {
-		name = 'Collector',
-		text = {
-			"This Joker gains {C:chips}+#2#{} Chips when",
-			"any {C:attention}Booster Pack{} is opened",
-			"{C:inactive}(Currently{} {C:chips}+#1#{} {C:inactive}Chips){}"
-		}
-	},
 	config = { extra = { chips = 0, chip_gain = 15} },
 	rarity = 1,
 	blueprint_compat = true,
@@ -693,14 +595,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'familyphoto',
-	loc_txt = {
-		name = 'Family Photo',
-		text = {
-			"This Joker gains {X:mult,C:white}X#1#{} Mult if played",
-			"hand contains a {C:attention}Full House{}",
-			"{C:inactive}(Currently {X:mult,C:white}X#2#{} {C:inactive}Mult)"
-		}
-	},
 	config = { extra = { x_mult_gain = 0.1, x_mult = 1 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -731,14 +625,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'popquiz',
-	loc_txt = {
-		name = 'Pop Quiz',
-		text = {
-			"Each {C:attention}Ace{} held in hand gives",
-			"{C:mult}+#1#{} Mult, increases by",
-			"{C:mult}+#2#{} Mult when an {C:attention}Ace{} is scored",
-		}
-	},
 	config = { extra = { mult = 0, mult_gain = 1} },
 	rarity = 2,
 	blueprint_compat = true,
@@ -778,15 +664,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'horoscope',
-	loc_txt = {
-		name = 'Horoscope',
-		text = {
-			"When a {C:planet}Planet{} card is used:",
-			"{C:green}#1# in #2#{} chance to create a random {C:tarot}Tarot{} card",
-			"{C:green}#1# in #3#{} chance to create a random {C:spectral}Spectral{} card",
-			"{C:inactive}(Must have room){}"
-		}
-	},
 	config = { extra = { odds = 3, odds2 = 6 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -845,15 +722,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'lotteryticket',
-	loc_txt = {
-		name = 'Lottery Ticket',
-		text = {
-			"At end of {C:attention}shop{},",
-			"{C:green}#2# in #3#{} chance to earn {C:money}$#1#{}",
-			"{C:green}#2# in #4#{} chance to {C:attention{}destroy{}",
-			"a random {C:attention}Joker{}"
-		}
-	},
 	config = { extra = { money = 25, odds = 3, odds2 = 10 } },
 	rarity = 2,
 	blueprint_compat = false,
@@ -877,7 +745,7 @@ SMODS.Joker {
 			if pseudorandom('lotto') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				ease_dollars(card.ability.extra.money)
 				return {
-					message = 'Lucky!',
+					message = localize('k_lucky'),
 					colour = G.C.attention
 				}
 			elseif pseudorandom('loss') < G.GAME.probabilities.normal / card.ability.extra.odds2 then
@@ -907,15 +775,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'energydrink',
-	loc_txt = {
-		name = 'Energy Drink',
-		text = {
-			"If {C:attention}first hand{} of round has only {C:attention}1{}",
-			"card, add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{}",
-			"or {C:dark_edition}Polychrome{} to card",
-			"{C:inactive}(Uses remaining: {C:attention}#1#{C:inactive}){}"
-		}
-	},
 	config = { extra = { uses = 3 } },
 	rarity = 2,
 	blueprint_compat = false,
@@ -981,7 +840,7 @@ SMODS.Joker {
 				}
 			else
 				return {
-					message = '-1',
+					message = localize('k_decriment'),
 					colour = G.C.attention
 				}
 			end
@@ -991,13 +850,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'cyclops',
-	loc_txt = {
-		name = 'Cyclops',
-		text = {
-			"{X:mult,C:white}X#1#{} Mult if hand",
-			"contains only {C:attention}1{} card"
-		}
-	},
 	config = { extra = { x_mult = 3 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -1027,15 +879,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'override',
-	loc_txt = {
-		name = 'Override',
-		text = {
-			"{C:green}#1# in #2#{} chance to convert",
-			"any scored card into the most",
-			"abundant {C:attention}rank{} in {C:attention}full deck",
-			"{C:inactive}(Randomly chosen in case of tie){}"
-		}
-	},
 	config = { extra = { odds = 5, r = '2' } },
 	rarity = 3,
 	blueprint_compat = false,
@@ -1067,7 +910,7 @@ SMODS.Joker {
 					return true end }))
 					
 					return {
-						message = 'Changed!',
+						message = localize('k_changed'),
 						colour = G.C.BLUE,
 						card = context.other_card
 					}
@@ -1079,15 +922,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'grayscalejoker',
-	loc_txt = {
-		name = 'Grayscale Joker',
-		text = {
-			"This Joker gives {X:mult,C:white}X#2#{} Mult",
-			"for each {C:attention}rank{} that does not",
-			"exist in {C:attention}full deck{}",
-			"{C:inactive}(Currently{} {X:mult,C:white}X#1#{}{C:inactive} Mult){}"
-		}
-	},
 	config = { extra = { x_mult = 1, x_mult_change = 0.75 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -1124,13 +958,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'twodollarbill',
-	loc_txt = {
-		name = 'Two Dollar Bill',
-		text = {
-			"{X:mult,C:white}X#1#{} Mult if current {C:money}money{}",
-			"is an {C:attention}even{} number"
-		}
-	},
 	config = { extra = { x_mult = 2.2 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1160,13 +987,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'onedollarbill',
-	loc_txt = {
-		name = 'One Dollar Bill',
-		text = {
-			"{C:chips}+#1#{} Chips if current {C:money}money{}",
-			"is an {C:attention}odd{} number"
-		}
-	},
 	config = { extra = { chips = 111 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1196,14 +1016,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'grimjoker',
-	loc_txt = {
-		name = 'Grim Joker',
-		text = {
-			"If {C:attention}first hand{} of round is a",
-			"single {C:attention}Ace{}, destroy two random",
-			"cards in hand and earn {C:money}$#1#{}"
-		}
-	},
 	config = { extra = { money = 11 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1268,14 +1080,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'erraticjoker',
-	loc_txt = {
-		name = 'Erratic Joker',
-		text = {
-			"Gives between {X:mult,C:white}X#2#{}",
-			"and {X:mult,C:white}X#3#{} Mult",
-			"{C:inactive}(Next hand:{} {X:mult,C:white}X#1#{}{C:inactive} Mult){}"
-		}
-	},
 	config = { extra = { x_mult = 1.25, x_mult_min = 0.5, x_mult_max = 4 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1305,7 +1109,7 @@ SMODS.Joker {
 			local diff = maxi - mini
 			card.ability.extra.x_mult = maxi - (diff * pseudorandom('randmult'))
 			return {
-				message = 'Updated',
+				message = localize('k_updated'),
 				colour = G.C.RED,
 				card = card
 			}
@@ -1315,16 +1119,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'downer',
-	loc_txt = {
-		name = 'Downer',
-		text = {
-			"{C:attention}-#1#{} hand size",
-			"After {C:attention}#3#{} rounds, sell",
-            "this card to add {C:dark_edition}Negative{}",
-			"to the Joker to the {C:attention}right{}",
-			"{C:inactive}(Currently {C:attention}#2#{C:inactive}/#3#)",
-		}
-	},
 	config = { extra = { hand_size = 2, rounds = 0, rounds_req = 3 } },
 	rarity = 3,
 	blueprint_compat = false,
@@ -1384,16 +1178,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'bloodmoney',
-	loc_txt = {
-		name = 'Blood Money',
-		text = {
-			"Earn {C:money}$#1#{} at end of round",
-			"When {C:attention}Blind{} is selected,",
-            "destroy Joker to the right",
-            "and add {C:attention}half{} its {C:attention}sell value",
-			"to payout"
-		}
-	},
 	config = { extra = { money = 0 } },
 	rarity = 2,
 	blueprint_compat = false,
@@ -1446,14 +1230,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'terra',
-	loc_txt = {
-		name = 'Terra',
-		text = {
-			"{C:green}#1# in #2#{} chance to add a",
-			"{C:purple}Purple Seal{} to played {C:spades}Spades{}",
-			"after scoring"
-		}
-	},
 	config = { extra = { odds = 8 } },
 	rarity = 3,
 	blueprint_compat = false,
@@ -1482,7 +1258,7 @@ SMODS.Joker {
 					play_sound('tarot1')
 					return true end }))
         
-					G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+					G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = function()
 					context.scoring_hand[k]:set_seal('Purple', nil, true)
 					return true end }))
 				
@@ -1495,14 +1271,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'aqua',
-	loc_txt = {
-		name = 'Aqua',
-		text = {
-			"{C:green}#1# in #2#{} chance to add a",
-			"{C:blue}Blue Seal{} to played {C:clubs}Clubs{}",
-			"after scoring"
-		}
-	},
 	config = { extra = { odds = 8 } },
 	rarity = 3,
 	blueprint_compat = false,
@@ -1544,14 +1312,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'aer',
-	loc_txt = {
-		name = 'Aer',
-		text = {
-			"{C:green}#1# in #2#{} chance to add a",
-			"{C:red}Red Seal{} to played {C:hearts}Hearts{}",
-			"after scoring"
-		}
-	},
 	config = { extra = { odds = 8 } },
 	rarity = 3,
 	blueprint_compat = false,
@@ -1593,14 +1353,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'ignis',
-	loc_txt = {
-		name = 'Ignis',
-		text = {
-			"{C:green}#1# in #2#{} chance to add a",
-			"{C:money}Gold Seal{} to played {C:diamonds}Diamonds{}",
-			"after scoring"
-		}
-	},
 	config = { extra = { odds = 8 } },
 	rarity = 3,
 	blueprint_compat = false,
@@ -1642,15 +1394,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'jumbojoker',
-	loc_txt = {
-		name = 'Jumbo Joker',
-		text = {
-			"This Joker gains",
-            "{C:mult}+#2#{} Mult when each",
-            "played {C:attention}10{} is scored",
-            "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
-		}
-	},
 	config = { extra = { mult = 0, mult_gain = 2 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -1691,14 +1434,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'wrapper',
-	loc_txt = {
-		name = 'Wrapper',
-		text = {
-			"{C:green}#2# in #3#{} chance to gain",
-			"{C:red}+#1#{} discard for the current round",
-			"after each {C:attention}played hand"
-		}
-	},
 	config = { extra = { discard = 1, odds = 4 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1732,13 +1467,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'pollution',
-	loc_txt = {
-		name = 'Pollution',
-		text = {
-			"Retrigger the {C:attention}last{} scored card",
-			"once for each remaining {C:red}discard"
-		}
-	},
 	config = { extra = { } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1761,15 +1489,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'cmykjoker',
-	loc_txt = {
-		name = 'CMYK Joker',
-		text = {
-			"This Joker gains {C:mult}+#1#{} Mult if played",
-			"hand contains only {V:1}#3#{}, suit",
-			"changes every round",
-			"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
-		}
-	},
 	config = { extra = { mult_gain = 3, mult = 0 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1817,15 +1536,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'phantomjoker',
-	loc_txt = {
-		name = 'Phantom Joker',
-		text = {
-			"{C:green}#1# in #2#{} chance to create",
-			"a {C:spectral}Spectral{} card when any",
-			"{C:attention}Booster Pack{} is opened",
-			"{C:inactive}(Must have room)"
-		}
-	},
 	config = { extra = { odds = 4 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -1918,14 +1628,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'obsidianjoker',
-	loc_txt = {
-		name = 'Obsidian Joker',
-		text = {
-			"This Joker gains {X:mult,C:white}X#2#{} Mult each",
-			"time a {C:attention}Stone{} card is discarded",
-			"{C:inactive}(Currently {X:mult,C:white}X#1#{} {C:inactive}Mult)"
-		}
-	},
 	config = { extra = { x_mult = 1, x_mult_gain = 0.05 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -1966,13 +1668,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'whiteboard',
-	loc_txt = {
-		name = 'Whiteboard',
-		text = {
-			"{C:hearts}Hearts{} and {C:diamonds}Diamonds{} give",
-			"{X:mult,C:white}X#1#{} Mult when held in hand"
-		}
-	},
 	config = { extra = { x_mult = 1.25 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -2005,14 +1700,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'shootingstar',
-	loc_txt = {
-		name = 'Shooting Star',
-		text = {
-			"Each scored {C:attention}7{} has a {C:green}#1# in #2#{}",
-			"chance to create a {C:spectral}Black Hole{}",
-			"{C:inactive}(Must have room)"
-		}
-	},
 	config = { extra = { odds = 7 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -2056,15 +1743,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'plusfour',
-	loc_txt = {
-		name = 'Plus Four',
-		text = {
-			"This Joker gains {X:mult,C:white}X#1#{} Mult each",
-			"time a {C:attention}consumable{} card is used",
-			"Resets at the end of each round",
-			"{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)"
-		}
-	},
 	config = { extra = { x_mult_gain = 0.4, x_mult = 1 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -2109,14 +1787,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'piggybank',
-	loc_txt = {
-		name = 'Piggy Bank',
-		text = {
-			"Earn {C:money}$#1#{} for every {C:attention}#2#{} {C:diamonds}Diamonds{}",
-			"in your {C:attention}full deck{} at end of round",
-			"{C:inactive}(Currently {C:money}$#3#{C:inactive})"
-		}
-	},
 	config = { extra = { money = 1, per_diamond = 3, current_money = 0 } },
 	rarity = 2,
 	blueprint_compat = false,
@@ -2159,14 +1829,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'candyhearts',
-	loc_txt = {
-		name = 'Candy Hearts',
-		text = {
-			"Gives {C:mult}+#1#{} Mult for each",
-			"{C:hearts}Heart{} in your {C:attention}full deck{}",
-			"{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)"
-		}
-	},
 	config = { extra = { mult_gain = 1, mult = 0 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -2207,15 +1869,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'darkness',
-	loc_txt = {
-		name = 'Darkness',
-		text = {
-			"If scoring hand contains at",
-			"least {C:attention}3{} {C:spades}Spades{}, create a",
-			"random {C:dark_edition}Negative{} {C:planet}Planet{} card",
-			"{C:inactive}(Must have room)"
-		}
-	},
 	config = { extra = { } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -2257,15 +1910,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'bananasplit',
-	loc_txt = {
-		name = 'Banana Split',
-		text = {
-			"All cards give {X:mult,C:white}X#1#{} Mult",
-			"{C:green}#2# in #3#{} chance this",
-			"card is destroyed",
-			"at end of round"
-		}
-	},
 	yes_pool_flag = 'gros_michel_extinct',
 	config = { extra = { x_mult = 1.25, odds = 8 } },
 	rarity = 1,
@@ -2330,14 +1974,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'plantain',
-	loc_txt = {
-		name = 'Plantain',
-		text = {
-			"{C:diamonds}Diamonds{} and {C:clubs}Clubs{} give {C:mult}+#1#{} Mult",
-			"when scored, {C:green}#2# in #3#{} chance this",
-			"card is destroyed at end of round"
-		}
-	},
 	yes_pool_flag = 'gros_michel_extinct',
 	no_pool_flag = 'redplant_extinct',
 	config = { extra = { mult = 6, odds = 6 } },
@@ -2406,14 +2042,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'redbanana',
-	loc_txt = {
-		name = 'Red Banana',
-		text = {
-			"{C:hearts}Hearts{} and {C:spades}Spades{} give {C:mult}+#1#{} Mult",
-			"when scored, {C:green}#2# in #3#{} chance this",
-			"card is destroyed at end of round"
-		}
-	},
 	yes_pool_flag = 'gros_michel_extinct',
 	no_pool_flag = 'redplant_extinct',
 	config = { extra = { mult = 6, odds = 6 } },
@@ -2482,13 +2110,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'goldenbanana',
-	loc_txt = {
-		name = 'Golden Banana',
-		text = {
-			"Earn {C:money}$#1#{} at",
-			"end of round"
-		}
-	},
 	yes_pool_flag = 'redplant_extinct',
 	config = { extra = { money = 25 } },
 	rarity = 1,
@@ -2517,15 +2138,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'mandarin',
-	loc_txt = {
-		name = 'Mandarin',
-		text = {
-			"{C:chips}+#1#{} Chips",
-			"{C:green}#2# in #3#{} chance this",
-			"card is destroyed",
-			"at end of round"
-		}
-	},
 	no_pool_flag = 'mandarin_extinct',
 	config = { extra = { chips = 120, odds = 6 } },
 	rarity = 1,
@@ -2591,14 +2203,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'pomelo',
-	loc_txt = {
-		name = 'Pomelo',
-		text = {
-			"Gives between {C:chips}+#2#{}",
-			"and {C:chips}+#3#{} Chips",
-			"{C:inactive}(Next hand:{} {C:chips}+#1#{}{C:inactive} Chips){}"
-		}
-	},
 	yes_pool_flag = 'mandarin_extinct',
 	config = { extra = { chips = 100, chips_min = 35, chips_max = 350 } },
 	rarity = 1,
@@ -2629,7 +2233,7 @@ SMODS.Joker {
 			local diff = maxi - mini
 			card.ability.extra.chips = maxi - (diff * pseudorandom('randchips'))
 			return {
-				message = 'Updated',
+				message = localize('k_updated'),
 				colour = G.C.BLUE,
 				card = card
 			}
@@ -2639,15 +2243,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'poetryribbon',
-	loc_txt = {
-		name = 'Poetry Ribbon',
-		text = {
-			"{X:mult,C:white}X#1#{} Mult if scoring",
-			"hand contains at least",
-			"{C:attention}2{} cards with the same",
-			"{C:attention}rank{} and {C:attention}suit{}"
-		}
-	},
 	config = { extra = { x_mult = 2.5 } },
 	rarity = 2,
 	blueprint_compat = true,
@@ -2689,15 +2284,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'crane',
-	loc_txt = {
-		name = 'Crane',
-		text = {
-			"Scored cards give {X:mult,C:white}X#1#{} Mult",
-			"if scoring hand contains at",
-			"least {C:attention}2{} other cards with",
-			"their {C:attention}rank{} and {C:attention}suit{}"
-		}
-	},
 	config = { extra = { x_mult = 1.5 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -2737,15 +2323,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'octahedron',
-	loc_txt = {
-		name = 'Octahedron',
-		text = {
-			"This Joker gains {C:mult}+#2#{} Mult for",
-			"each {C:attention}8{} discarded in the",
-			"{C:attention}final discard{} of round",
-			"{C:inactive}(Currently{} {C:mult}+#1#{} {C:inactive}Mult){}"
-		}
-	},
 	config = { extra = { mult = 0, mult_gain = 3} },
 	rarity = 2,
 	blueprint_compat = true,
@@ -2780,15 +2357,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'orbit',
-	loc_txt = {
-		name = 'Orbit',
-		text = {
-			"Gives {C:mult}+#2#{} Mult for every",
-			"{C:attention}level{} on your most played",
-			"{C:attention}poker hand{}",
-			"{C:inactive}(Currently{} {C:mult}+#1#{} {C:inactive}Mult){}"
-		}
-	},
 	config = { extra = { mult = 0, mult_gain = 2} },
 	rarity = 2,
 	blueprint_compat = true,
@@ -2816,16 +2384,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'beatupjoker',
-	loc_txt = {
-		name = 'Beat-Up Joker',
-		text = {
-			"All other Jokers lose {C:money}$#3#{} of",
-			"{C:attention}sell value{} at end of round",
-			"This Joker gains {X:mult,C:white}X#2#{} Mult",
-			"per lost dollar",
-			"{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult){}"
-		}
-	},
 	config = { extra = { x_mult = 1, x_mult_gain = 0.25, money = 1 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -2874,14 +2432,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'iridescentquartz',
-	loc_txt = {
-		name = 'Iridescent Quartz',
-		text = {
-			"Played {C:attention}Wild{} cards give",
-			"{C:money}$#1#{}, {C:chips}+#2#{} Chips, {C:mult}+#3#{} Mult,",
-			"or {X:mult,C:white}X#4#{} Mult when scored"
-		}
-	},
 	config = { extra = { money = 4, chips = 200, mult = 28, x_mult = 3 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -2921,15 +2471,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'colorcard',
-	loc_txt = {
-		name = 'Color Card',
-		text = {
-			"Scored {C:attention}Wild{} cards have a",
-			"{C:green}#1# in #2#{} chance to convert the",
-			"rest of the scoring hand",
-			"into their {C:attention}base suit"
-		}
-	},
 	config = { extra = { odds = 2 } },
 	rarity = 2,
 	blueprint_compat = false,
@@ -2985,14 +2526,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'recyclablejoker',
-	loc_txt = {
-		name = 'Recyclable Joker',
-		text = {
-			"Earn {C:money}$#1#{} at end of round",
-			"Payout increases by {C:money}$#2#{}",
-			"every {C:attention}#3# {C:inactive}[#4#]{} cards discarded"
-		}
-	},
 	config = { extra = { money = 0, money_gain = 1, discard_req = 15, remaining = 15} },
 	rarity = 2,
 	blueprint_compat = false,
@@ -3039,15 +2572,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'arcadecard',
-	loc_txt = {
-		name = 'Arcade Card',
-		text = {
-			"This Joker gains {C:chips}+#2#{} Chip",
-			"for every {C:money}dollar{} you have",
-			"at {C:attention}end of shop",
-			"{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips){}"
-		}
-	},
 	config = { extra = { chips = 0, chip_gain = 1 } },
 	rarity = 3,
 	blueprint_compat = true,
@@ -3085,15 +2609,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'dagonet',
-	loc_txt = {
-		name = 'Dagonet',
-		text = {
-			"This Joker gains {X:mult,C:white}X#2#{} Mult",
-			"for every {C:money}$#3#{} you have",
-			"at {C:attention}end of shop",
-			"{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult){}"
-		}
-	},
 	config = { extra = { x_mult = 1, x_mult_gain = 0.1, dollar_lim = 7 } },
 	rarity = 4,
 	blueprint_compat = true,
@@ -3133,14 +2648,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'stanczyk',
-	loc_txt = {
-		name = 'Stańczyk',
-		text = {
-			"Using any {C:planet}Planet{} card also levels",
-			"up your most played {C:attention}poker hand{}",
-			"{C:green}#1# in #2#{} chance to level up again"
-		}
-	},
 	config = { extra = { odds = 3 } },
 	rarity = 4,
 	blueprint_compat = true,
