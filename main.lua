@@ -174,9 +174,9 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.before then
+		if context.before and not context.blueprint then
 			card.ability.extra.other_card = 1
-		elseif context.destroying_card then
+		elseif context.destroying_card and not context.blueprint then
 			if (context.scoring_hand[card.ability.extra.other_card]:get_id() == 12 
 			or context.scoring_hand[card.ability.extra.other_card]:get_id() == 13) 
 			and not context.scoring_hand[card.ability.extra.other_card].debuff  then
@@ -635,9 +635,9 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.before then
+		if context.before and not context.blueprint then
 			card.ability.extra.other_card = 1
-		elseif context.destroying_card then
+		elseif context.destroying_card and not context.blueprint then
 			if context.scoring_hand[card.ability.extra.other_card].config.center.key == "m_stone" and not context.scoring_hand[card.ability.extra.other_card].debuff then
 				G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
 				G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
@@ -937,11 +937,11 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.first_hand_drawn then
+		if context.first_hand_drawn and not context.blueprint then
             juice_card_until(card, function() return G.GAME.current_round.hands_played == 0 end, true)
 		end
 
-		if context.before 
+		if context.before and not context.blueprint 
 		and G.GAME.current_round.hands_played == 0 
 		and #context.full_hand == 1 
 		and not context.full_hand[1].edition then
@@ -1054,9 +1054,9 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.before then
+		if context.before and not context.blueprint then
 			card.ability.extra.r = most_rank()
-		elseif context.individual and context.cardarea == G.play then
+		elseif context.individual and context.cardarea == G.play and not context.blueprint then
 			local c = context.other_card
 			local _rank = card.ability.extra.r.string_id
 			if pseudorandom('rankchange') < G.GAME.probabilities.normal / card.ability.extra.odds then
@@ -1412,7 +1412,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.setting_blind and not context.getting_sliced then
+		if context.setting_blind and not context.getting_sliced and not context.blueprint then
 			local pos = nil
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == card then pos = i; break end
@@ -1474,7 +1474,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.after then
+		if context.after and not context.blueprint then
 			for k, v in pairs(context.scoring_hand) do
 				if pseudorandom('earth') < G.GAME.probabilities.normal / card.ability.extra.odds and v:is_suit("Spades") and not v.seal then
 			
@@ -1523,7 +1523,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.after then
+		if context.after and not context.blueprint then
 			for k, v in pairs(context.scoring_hand) do
 				if pseudorandom('water') < G.GAME.probabilities.normal / card.ability.extra.odds and v:is_suit("Clubs") and not v.seal then
 			
@@ -1572,7 +1572,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.after then
+		if context.after and not context.blueprint then
 			for k, v in pairs(context.scoring_hand) do
 				if pseudorandom('earth') < G.GAME.probabilities.normal / card.ability.extra.odds and v:is_suit("Hearts") and not v.seal then
 			
@@ -1621,7 +1621,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.after then
+		if context.after and not context.blueprint then
 			for k, v in pairs(context.scoring_hand) do
 				if pseudorandom('earth') < G.GAME.probabilities.normal / card.ability.extra.odds and v:is_suit("Diamonds") and not v.seal then
 			
@@ -2965,7 +2965,7 @@ SMODS.Joker {
 			[13] = 'K',
 			[14] = 'A',
 		}
-		if context.before then
+		if context.before and not context.blueprint then
 			for m, w in pairs(context.scoring_hand) do
 				if w.config.center.key == "m_wild" then
 					if pseudorandom("wildcard") < G.GAME.probabilities.normal / card.ability.extra.odds then
@@ -3021,7 +3021,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.discard then
+		if context.discard and not context.blueprint then
 			if card.ability.extra.remaining > 1 then
 				card.ability.extra.remaining = card.ability.extra.remaining - 1
 			else
