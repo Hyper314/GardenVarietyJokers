@@ -873,7 +873,7 @@ SMODS.Joker {
 	
 	
 	calculate = function(self, card, context)
-		if context.ending_shop then
+		if context.ending_shop and not context.blueprint then
 			if pseudorandom('lotto') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				ease_dollars(card.ability.extra.money)
 				return {
@@ -1016,7 +1016,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.joker_main and #context.full_hand == 1 then
+		if context.joker_main and #context.full_hand == 1 and not self.debuff then
 			return {
 				Xmult_mod = card.ability.extra.x_mult,
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
@@ -1346,7 +1346,7 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.selling_self and card.ability.extra.rounds >= card.ability.extra.rounds_req then
+		if context.selling_self and card.ability.extra.rounds >= card.ability.extra.rounds_req and not context.blueprint then
 			local eval = function(card) return not G.RESET_JIGGLES end
             juice_card_until(card, eval, true)
 			
@@ -1358,7 +1358,7 @@ SMODS.Joker {
             if pos and G.jokers.cards[pos+1] then 
                 G.jokers.cards[pos+1]:set_edition('e_negative', true)
 			end
-		elseif context.end_of_round and not context.repetition and not context.individual then
+		elseif context.end_of_round and not context.repetition and not context.individual and not context.blueprint then
 			if card.ability.extra.rounds < card.ability.extra.rounds_req then
 				card.ability.extra.rounds = card.ability.extra.rounds + 1
 			end
