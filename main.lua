@@ -661,7 +661,7 @@ SMODS.Joker {
 			"{C:inactive}(Currently{} {C:chips}+#1#{} {C:inactive}Chips){}"
 		}
 	},
-	config = { extra = { chips = 0, chip_gain = 15} },
+	config = { extra = { chips = 0, chip_gain = 10} },
 	rarity = 1,
 	blueprint_compat = true,
 	eternal_compat = true,
@@ -1167,7 +1167,7 @@ SMODS.Joker {
 			"is an {C:attention}odd{} number"
 		}
 	},
-	config = { extra = { chips = 111 } },
+	config = { extra = { chips = 151 } },
 	rarity = 2,
 	blueprint_compat = true,
 	eternal_compat = true,
@@ -1651,7 +1651,7 @@ SMODS.Joker {
             "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
 		}
 	},
-	config = { extra = { mult = 0, mult_gain = 2 } },
+	config = { extra = { mult = 0, mult_gain = 1 } },
 	rarity = 3,
 	blueprint_compat = true,
 	eternal_compat = true,
@@ -2600,7 +2600,7 @@ SMODS.Joker {
 		}
 	},
 	yes_pool_flag = 'mandarin_extinct',
-	config = { extra = { chips = 100, chips_min = 35, chips_max = 350 } },
+	config = { extra = { chips = 100, chips_min = 50, chips_max = 500 } },
 	rarity = 1,
 	blueprint_compat = true,
 	eternal_compat = true,
@@ -3117,7 +3117,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		if context.ending_shop and not context.blueprint and not context.individual and not context.repetition then
 			if (G.GAME.dollars or 0) > card.ability.extra.dollar_lim then
-				card.ability.extra.x_mult = card.ability.extra.x_mult + (card.ability.extra.x_mult_gain * math.floor(G.GAME.dollars / 5))
+				card.ability.extra.x_mult = card.ability.extra.x_mult + (card.ability.extra.x_mult_gain * math.floor(G.GAME.dollars / card.ability.extra.dollar_lim))
 				return {
                     message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
                 }
