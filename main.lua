@@ -3117,7 +3117,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		if context.ending_shop and not context.blueprint and not context.individual and not context.repetition then
 			if (G.GAME.dollars or 0) > card.ability.extra.dollar_lim then
-				card.ability.extra.x_mult = card.ability.extra.x_mult + (card.ability.extra.x_mult_gain * math.floor(G.GAME.dollars / 5))
+				card.ability.extra.x_mult = card.ability.extra.x_mult + (card.ability.extra.x_mult_gain * math.floor(G.GAME.dollars / card.ability.extra.dollar_lim))
 				return {
                     message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } }
                 }
